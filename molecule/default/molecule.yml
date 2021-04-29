@@ -2,6 +2,8 @@
 scenario:
   default:
     - converge
+  test_sequence:
+    - converge
 
 dependency:
   name: galaxy
