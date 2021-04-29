@@ -20,7 +20,9 @@ jobs:
           python-version: 3.x
 
       - name: Install dependencies
-        run: pip3 install yamllint ansible-lint~=5.0
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install yamllint ansible-core>=2.11 ansible-lint
 
       - name: yamllint
         run: yamllint .
@@ -40,7 +42,9 @@ jobs:
           python-version: 3.x
 
       - name: Install dependencies
-        run: pip3 install ansible>=4.0 molecule
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install ansible-core>=2.11 molecule
 
       - name: Run molecule tests
         run: molecule test
