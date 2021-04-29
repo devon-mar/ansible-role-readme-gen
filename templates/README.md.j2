@@ -1,0 +1,60 @@
+{% import "macros.j2" as macros %}
+# {{ meta_file.galaxy_info.role_name | default("<role name>") }}
+
+{{ meta_file.galaxy_info.description | default("") }}
+
+{% if meta_file.galaxy_info.platforms is defined %}
+## Platforms
+{%   for p in meta_file.galaxy_info.platforms %}
+{%     for v in p.versions %}
+* {{ p.name }}{% if v != "all" %} {{ v }}{% else %}{{ "\n" }}{% endif %}
+{%     endfor %}
+{%   endfor %}
+{% endif %}
+{% if meta_file.dependencies | default([]) | length > 0 %}
+
+## Dependencies
+{%   for d in meta_file.dependencies -%}
+{%     if d is mapping %}
+* `{{ d.role }}`
+{%     else %}
+* `{{ d }}`
+{%     endif %}
+{%   endfor %}
+{% endif %}
+{% if readme_file.requirements is defined %}
+
+## Requirements
+{%   for r in readme_file.requirements | default([]) %}
+* {{ r }}
+{%   endfor %}
+{% endif %}
+{% if readme_file.notes is defined %}
+## Notes
+{%   if readme_file.notes is string %}
+{{ readme_file.notes -}}
+{%   else %}
+{%     for n in readme_file.notes | default([]) %}
+* {{ n }}
+{%     endfor %}
+{%   endif %}
+{% endif %}
+{% if meta_file.argument_specs is defined %}
+{%   for entrypoint, spec in meta_file.argument_specs.items() %}
+
+## Role Variables{% if entrypoint != "main" %} - {{ entrypoint }}{% endif %}
+{# leave the double \n #}
+
+{{ macros.table_header() }}
+{%     for k, v in (meta_file.argument_specs.main.options | default({})).items() %}
+{%       if v.required | default(False) %}{{ macros.render_var_line(k, v) }}{% endif %}
+{%     endfor %}
+{%     for k, v in (meta_file.argument_specs.main.options | default({})).items() %}
+{%       if not v.required | default(False) %}{{ macros.render_var_line(k, v) }}{% endif %}
+{%     endfor %}
+{{ macros.var_constraints(meta_file.argument_specs.main) -}}
+{%     for k, v in (meta_file.argument_specs.main.options | default({})).items() %}
+{%       if v.options is defined %}{{ macros.render_nested_var(k, v, 3) }}{% endif %}
+{%     endfor %}
+{%   endfor %}
+{% endif %}

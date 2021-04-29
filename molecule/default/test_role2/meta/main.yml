@@ -1,0 +1,78 @@
+---
+galaxy_info:
+  role_name: test_role2
+  description: A role with a readme.yml file
+
+argument_specs:
+  main:
+    options:
+      int_var:
+        type: int
+        required: true
+        description: ''
+      str_var:
+        type: str
+        required: true
+        description: ''
+      bool_var:
+        type: bool
+        required: true
+        description: ''
+      dict_var:
+        type: dict
+        required: true
+        description: ''
+        options:
+          key:
+            type: str
+            required: true
+            description: ''
+      dict_var2:
+        type: dict
+        required: true
+        description: ''
+        options:
+          number1:
+            type: dict
+            required: true
+            description: ''
+            options:
+              abc:
+                type: str
+                required: true
+                description: ''
+              some_int:
+                type: int
+                required: true
+                description: ''
+          number2:
+            type: dict
+            required: true
+            description: ''
+            options:
+              abc:
+                type: str
+                required: true
+                description: ''
+              ghi:
+                type: str
+                required: true
+                description: ''
+              this_is_optional:
+                type: bool
+                required: true
+                description: ''
+      list_of_dicts:
+        type: list
+        required: true
+        description: ''
+        elements: dict
+        options:
+          name:
+            type: str
+            required: true
+            description: ''
+          value:
+            type: int
+            required: false
+            description: ''

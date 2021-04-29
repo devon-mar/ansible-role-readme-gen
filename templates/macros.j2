@@ -1,0 +1,58 @@
+{% macro table_header() %}
+| Variable | Required | Type | Choices/Defaults | Comments |
+|----------|----------|------|------------------|----------|
+{%- endmacro %}
+
+{% macro render_type_string(k, v) %}
+{% if v.type is not defined %}
+str
+{%- elif v.type == "list" and v.elements is defined %}
+list[{{ v.elements }}]
+{%- else %}
+{{ v.type }}
+{%- endif %}
+{% endmacro %}
+
+{% macro render_var_line(k, v) %}
+| `{{ k }}` | {{ v.required | default(False) }} | {{ render_type_string(k, v) }} | {% if v.choices is defined %}{{ ul_list(v.choices) }}{% elif v.default is defined%}`{{ v.default }}` {% endif %}|
+{%- if v.options is defined %} See [`<{{ k }}>`](#{{ k }}).{% else %} {{ v.description | default("") }}{% endif %} |
+{% endmacro %}
+
+{% macro render_nested_var(var_name, v, header_level) %}
+
+{{ '#' * header_level }} `<{{ var_name }}>`
+{% if v.description is defined %}
+{{ v.description}}
+{% endif %}
+{{ table_header() }}
+{% for k, v in v.options.items() %}
+| `{{ k }}` | {{ v.required | default(False) }} | {{ v.type | default("str") }} | {% if v.choices is defined %}{{ ul_list(v.choices) }}{% elif v.default is defined %}`{{ v.default }}` {% endif %} |
+{%- if v.options is defined %} See [`<{{ var_name }}.{{ k }}>`](#{{ var_name }}.{{ k }}).{% else %} {{ v.description | default("") }}{% endif %} |
+{% endfor %}
+{{ var_constraints(v) -}}
+{% for k, v in v.options.items() %}
+{% if v.options is defined %}{{ render_nested_var(var_name ~ '.' ~ k, v, header_level + 1) }}{% endif %}
+{% endfor %}
+{% endmacro %}
+
+
+{% macro var_constraints(var_dict) %}
+{% if var_dict.mutually_exclusive | default([]) | length > 0 %}
+
+Mutually exclusive:
+{%   for var in var_dict.mutually_exclusive %}
+* `{{ var }}`
+{%   endfor %}
+{% endif %}
+{% if var_dict.required_one_of | default([]) | length > 0 %}
+
+One of the following is required:
+{%   for var in var_dict.required_one_of %}
+* `{{ var }}`
+{%   endfor %}
+{% endif %}
+{% endmacro %}
+
+{% macro ul_list(items) %}
+<ul>{% for i in items %}<li>{{ i }}</li>{% endfor %}</ul>
+{%- endmacro %}

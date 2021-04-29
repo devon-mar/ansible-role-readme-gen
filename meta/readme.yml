@@ -1,0 +1,8 @@
+---
+title: ansible-role-readme-gen
+notes:
+  - The title of the README can be overridden by setting `title` in `meta/readme.yml`
+  - See `files/readme_argspec.yml` for possible keys for `readme.yml`.
+
+requirements:
+  - None

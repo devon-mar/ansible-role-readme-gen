@@ -1,0 +1,24 @@
+---
+- name: Read {{ readme_gen_role_path }}/meta/main.yml
+  set_fact:
+    meta_file: "{{ lookup('file', readme_gen_role_path ~ '/meta/main.yml') | from_yaml }}"
+
+- block:
+    - name: Read {{ readme_gen_role_path }}/meta/readme.yml
+      set_fact:
+        readme_file: "{{ lookup('file', readme_gen_role_path ~ '/meta/readme.yml') | from_yaml }}"
+  rescue:
+    - name: No readme.yml file
+      set_fact:
+        readme_file: {}
+
+- name: Validate readme.yml
+  validate_argument_spec:
+    argument_spec: "{{ lookup('file', 'readme_argspec.yml') | from_yaml }}"
+    provided_arguments: "{{ readme_file }}"
+
+- name: Template README.md
+  # noqa 208
+  template:
+    src: README.md.j2
+    dest: "{{ readme_gen_dest }}"

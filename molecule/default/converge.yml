@@ -1,0 +1,29 @@
+---
+- name: Converge
+  hosts: localhost
+  gather_facts: false
+  pre_tasks:
+    - name: Get a tempfile path
+      tempfile:
+        state: file
+        prefix: readme_gen
+      register: _tempfile
+    - name: Set readme_gen_dest
+      set_fact:
+        readme_gen_dest: "{{ _tempfile.path }}"
+  tasks:
+    - block:
+        - name: import role
+          include_role:
+            name: devon_mar.readme_gen
+          vars:
+            readme_gen_role_path: "{{ item }}"
+          with_items:
+            - "."
+            - test_role1
+            - test_role2
+      always:
+        - name: Remove the tempfile
+          file:
+            path: "{{ readme_gen_dest }}"
+            state: absent

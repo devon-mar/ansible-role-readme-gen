@@ -1,0 +1,8 @@
+---
+title: overridden!
+requirements:
+  - some package
+  - some other package
+notes:
+  - note 1
+  - note 2

@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  role_name: readme_gen
+  namespace: devon_mar
+  author: Devon Mar
+  description: |-
+    This role generates a README for an Ansible role from role metadata. Role name, description and arguments
+    are taken from `galaxy_info.role_name`, `galaxy_info.description`, and `argument_specs.main.options` in
+    `meta/main.yml` respectively.
+  license: Apache
+  min_ansible_version: 2.11
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+
+argument_specs:
+  main:
+    options:
+      readme_gen_role_path:
+        type: str
+        required: true
+        description: Path to the role
+      readme_gen_dest:
+        type: str
+        description: Destination file
+        default: "{{ readme_gen_role_path }}/README.md"

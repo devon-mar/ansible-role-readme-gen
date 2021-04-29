@@ -1,0 +1,10 @@
+---
+title:
+  type: str
+  description: Overrides the title.
+notes:
+  type: list
+  elements: str
+requirements:
+  type: list
+  elements: str

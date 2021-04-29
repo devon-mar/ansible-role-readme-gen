@@ -1,0 +1,2 @@
+---
+readme_gen_dest: "{{ readme_gen_role_path }}/README.md"
