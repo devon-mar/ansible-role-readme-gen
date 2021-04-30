@@ -2,9 +2,5 @@
 - hosts: localhost
   connection: local
   gather_facts: false
-  vars_prompt:
-    - name: readme_gen_role_path
-      prompt: Path to role
-      private: false
   roles:
     - devon_mar.readme_gen
