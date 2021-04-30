@@ -46,14 +46,14 @@
 {# leave the double \n #}
 
 {{ macros.table_header() }}
-{%     for k, v in (meta_file.argument_specs.main.options | default({})).items() %}
+{%     for k, v in (spec.options | default({})).items() %}
 {%       if v.required | default(False) %}{{ macros.render_var_line(k, v) }}{% endif %}
 {%     endfor %}
-{%     for k, v in (meta_file.argument_specs.main.options | default({})).items() %}
+{%     for k, v in (spec.options | default({})).items() %}
 {%       if not v.required | default(False) %}{{ macros.render_var_line(k, v) }}{% endif %}
 {%     endfor %}
 {{ macros.var_constraints(meta_file.argument_specs.main) -}}
-{%     for k, v in (meta_file.argument_specs.main.options | default({})).items() %}
+{%     for k, v in (spec.options | default({})).items() %}
 {%       if v.options is defined %}{{ macros.render_nested_var(k, v, 3) }}{% endif %}
 {%     endfor %}
 {%   endfor %}
