@@ -7,7 +7,9 @@
 ## Platforms
 {%   for p in meta_file.galaxy_info.platforms %}
 {%     for v in p.versions %}
-* {{ p.name }}{% if v != "all" %} {{ v }}{% else %}{{ "\n" }}{% endif %}
+* {{ p.name }}{% if v != "all" %} {{ v }}{% endif %}
+{# need the new line #}
+
 {%     endfor %}
 {%   endfor %}
 {% endif %}
