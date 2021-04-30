@@ -51,6 +51,13 @@ One of the following is required:
 * `{{ var }}`
 {%   endfor %}
 {% endif %}
+{% if var_dict.required_together | default([]) | length > 0 %}
+
+The following are required together:
+{%   for var in var_dict.required_together %}
+* `{{ var }}`
+{%   endfor %}
+{% endif %}
 {% endmacro %}
 
 {% macro ul_list(items) %}
