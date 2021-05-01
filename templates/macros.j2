@@ -14,7 +14,7 @@ list[{{ v.elements }}]
 {% endmacro %}
 
 {% macro render_var_line(k, v) %}
-| `{{ k }}` | {{ v.required | default(False) }} | {{ render_type_string(k, v) }} | {% if v.choices is defined %}{{ ul_list(v.choices) }}{% elif v.default is defined%}`{{ v.default }}` {% endif %}|
+| `{{ k }}` | {{ v.required | default(False) }} | {{ render_type_string(k, v) }} | {% if v.choices is defined %}{{ choices_list(v) }}{% elif v.default is defined%}`{{ v.default }}` {% endif %}|
 {%- if v.options is defined %} See [`<{{ k }}>`](#{{ k }}).{% else %} {{ v.description | default("") }}{% endif %} |
 {% endmacro %}
 
@@ -26,7 +26,7 @@ list[{{ v.elements }}]
 {% endif %}
 {{ table_header() }}
 {% for k, v in v.options.items() %}
-| `{{ k }}` | {{ v.required | default(False) }} | {{ v.type | default("str") }} | {% if v.choices is defined %}{{ ul_list(v.choices) }}{% elif v.default is defined %}`{{ v.default }}` {% endif %} |
+| `{{ k }}` | {{ v.required | default(False) }} | {{ v.type | default("str") }} | {% if v.choices is defined %}{{ choices_list(v) }}{% elif v.default is defined %}`{{ v.default }}` {% endif %} |
 {%- if v.options is defined %} See [`<{{ var_name }}.{{ k }}>`](#{{ var_name }}.{{ k }}).{% else %} {{ v.description | default("") }}{% endif %} |
 {% endfor %}
 {{ var_constraints(v) -}}
@@ -60,6 +60,6 @@ The following are required together:
 {% endif %}
 {% endmacro %}
 
-{% macro ul_list(items) %}
-<ul>{% for i in items %}<li>{{ i }}</li>{% endfor %}</ul>
+{% macro choices_list(var) %}
+<ul>{% for i in var.choices %}<li>{% if i == var.default | default("") %}**{{ i }}**{% else %}{{ i }}{% endif %}</li>{% endfor %}</ul>
 {%- endmacro %}
