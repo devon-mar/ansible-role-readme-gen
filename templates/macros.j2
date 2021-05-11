@@ -15,7 +15,7 @@ list[{{ v.elements }}]
 
 {% macro render_var_line(k, v) %}
 | `{{ k }}` | {{ v.required | default(False) }} | {{ render_type_string(k, v) }} | {% if v.choices is defined %}{{ choices_list(v) }}{% elif v.default is defined%}`{{ v.default }}` {% endif %}|
-{%- if v.options is defined %} See [`<{{ k }}>`](#{{ k }}).{% else %} {{ v.description | default("") }}{% endif %} |
+{%- if v.options is defined %} See [`<{{ k }}>`](#{{ k }}).{% else %} {{ v.description | default("") | e }}{% endif %} |
 {% endmacro %}
 
 {% macro render_nested_var(var_name, v, header_level) %}

@@ -1,7 +1,7 @@
 {% import "macros.j2" as macros %}
 # {{ meta_file.galaxy_info.role_name | default("<role name>") }}
 
-{{ meta_file.galaxy_info.description | default("") }}
+{{ meta_file.galaxy_info.description | default("") | e }}
 
 {% if meta_file.galaxy_info.platforms is defined %}
 ## Platforms
@@ -43,7 +43,13 @@
 {% endif %}
 {% if meta_file.argument_specs is defined %}
 {%   for entrypoint, spec in meta_file.argument_specs.items() %}
+{% if readme_file.examples | default([]) | length > 0 %}
+{%   for ex in readme_file.examples %}
+## Example{% if ex.name is defined %}: {{ ex.name }}{% else %} {{ loop.index }}{% endif %}
 
+{{ ex.content }}
+{%   endfor %}
+{% endif %}
 ## Role Variables{% if entrypoint != "main" %} - {{ entrypoint }}{% endif %}
 {# leave the double \n #}
 

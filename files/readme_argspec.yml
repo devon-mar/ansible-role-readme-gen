@@ -8,3 +8,15 @@ notes:
 requirements:
   type: list
   elements: str
+examples:
+  type: list
+  elements: str
+  options:
+    name:
+      type: str
+      description: Optional name for the example.
+    content:
+      type: str
+      required: true
+      content: Markdown content of the example.
+

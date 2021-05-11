@@ -6,3 +6,18 @@ requirements:
 notes:
   - note 1
   - note 2
+
+exmaples:
+  - content: |
+      Some yaml...
+      ```
+      ---
+      some_var: abc
+      ```
+  - name: The name of this example
+    content: |
+      An example with a name
+      ```
+      ---
+      some_var: abc
+      ```
