@@ -19,4 +19,3 @@ examples:
       type: str
       required: true
       content: Markdown content of the example.
-

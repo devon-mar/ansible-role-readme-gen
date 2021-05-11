@@ -7,7 +7,7 @@ notes:
   - note 1
   - note 2
 
-exmaples:
+examples:
   - content: |
       Some yaml...
       ```
